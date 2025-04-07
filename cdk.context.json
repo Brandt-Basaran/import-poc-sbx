@@ -1,0 +1,9 @@
+{
+  "vpc-provider:account=432916108626:filter.vpc-id=vpc-05c394ca33040dbdc:region=us-east-2:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-05c394ca33040dbdc",
+    "vpcCidrBlock": "10.0.0.0/28",
+    "ownerAccountId": "432916108626",
+    "availabilityZones": [],
+    "subnetGroups": []
+  }
+}
