@@ -11,34 +11,56 @@ export class VpcImportDemoStack extends cdk.Stack {
       vpcId: 'vpc-05c394ca33040dbdc' // Replace with your VPC ID
     });
 
-    // Example: Create a security group in the imported VPC
-    const securityGroup = new ec2.SecurityGroup(this, 'ExampleSecurityGroup', {
-      vpc: importedVpc,
-      description: 'Example security group in imported VPC',
-      allowAllOutbound: true
-    });
 
-    // Add an inbound rule to the security group
-    securityGroup.addIngressRule(
-      ec2.Peer.anyIpv4(),
-      ec2.Port.tcp(443),
-      'Allow HTTPS traffic'
-    );
-
-    // Output the imported VPC information
-    new cdk.CfnOutput(this, 'ImportedVpcId', {
-      value: importedVpc.vpcId,
-      description: 'The ID of the imported VPC',
+    const newVpc = new ec2.CfnVPC(this, 'poc-vpc', {
+      cidrBlock: '10.0.0.0/28',
+      enableDnsHostnames: false,
+      enableDnsSupport: true,
+      
+      tags: [{ 
+        key: 'Name', 
+        value: 'poc-vpc' 
+      },
+      { key: 'purpose',
+        value: 'poc'
+      },
+      { key: 'test',
+        value: 'hugesuccess'
+      }]
     });
+  
+    newVpc.cfnOptions.deletionPolicy = cdk.CfnDeletionPolicy.RETAIN;
 
-    new cdk.CfnOutput(this, 'VpcCidr', {
-      value: importedVpc.vpcCidrBlock,
-      description: 'The CIDR range of the imported VPC',
-    });
+    
 
-    new cdk.CfnOutput(this, 'SecurityGroupId', {
-      value: securityGroup.securityGroupId,
-      description: 'The ID of the created security group',
-    });
+    // // Example: Create a security group in the imported VPC
+    // const securityGroup = new ec2.SecurityGroup(this, 'ExampleSecurityGroup', {
+    //   vpc: importedVpc,
+    //   description: 'Example security group in imported VPC',
+    //   allowAllOutbound: true
+    // });
+
+    // // Add an inbound rule to the security group
+    // securityGroup.addIngressRule(
+    //   ec2.Peer.anyIpv4(),
+    //   ec2.Port.tcp(443),
+    //   'Allow HTTPS traffic'
+    // );
+
+    // // Output the imported VPC information
+    // new cdk.CfnOutput(this, 'ImportedVpcId', {
+    //   value: importedVpc.vpcId,
+    //   description: 'The ID of the imported VPC',
+    // });
+
+    // new cdk.CfnOutput(this, 'VpcCidr', {
+    //   value: importedVpc.vpcCidrBlock,
+    //   description: 'The CIDR range of the imported VPC',
+    // });
+
+    // new cdk.CfnOutput(this, 'SecurityGroupId', {
+    //   value: securityGroup.securityGroupId,
+    //   description: 'The ID of the created security group',
+    // });
   }
 }
